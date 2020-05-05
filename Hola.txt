@@ -1,5 +1,14 @@
 Hola mundo!
 diferencias a ver
 
+<<<<<<< HEAD
 Probando un commit
 Agregando una nueva linea
+=======
+Adios Mundo!
+
+Ahora si ya lo podemos modificar
+
+Esta linea se añadió en el modifytxt branch
+
+Añanadiendo esta linea, probando comandos de git
