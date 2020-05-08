@@ -1,0 +1,4 @@
+B3 B7 B9
+11 1A 1E
+1A 25 2A
+1A 26 2B color header panel lateral

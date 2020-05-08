@@ -12,7 +12,7 @@ import Modelo.Banco.CuentaAhorro;
 import Modelo.Banco.CuentaMonetaria;
 import Modelo.Banco.Transaccion;
 import Utilidades.Utilidades;
-import static Vista.Banco.Login.frmCaja;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -215,55 +215,49 @@ public class Depositar extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         UsuarioDB usuariodb = new UsuarioDB();
         Cuenta cuentica = new CuentaAhorro();
-        
-        
-        
-        
-        
-        try{
-            
-        if(usuariodb.existeCuenta(txtFieldnumCuenta.getText()) == true){
-             cuentica = usuariodb.buscarCuenta(txtFieldnumCuenta.getText());
-             txtnombreCuenta.setText(cuentica.getUser().getNombre() + " " + cuentica.getUser().getApellido());
-             this.tipocuenta =  cuentica.getId_tipoCuenta();
-             
-                switch(tipocuenta){
-                    case 1 :
+
+        try {
+
+            if (usuariodb.existeCuenta(txtFieldnumCuenta.getText()) == true) {
+                cuentica = usuariodb.buscarCuenta(txtFieldnumCuenta.getText());
+                txtnombreCuenta.setText(cuentica.getUser().getNombre() + " " + cuentica.getUser().getApellido());
+                this.tipocuenta = cuentica.getId_tipoCuenta();
+
+                switch (tipocuenta) {
+                    case 1:
                         labeltipoCuenta.setText("Cuenta de Ahorro");
                         break;
-                    case 2 :
+                    case 2:
                         labeltipoCuenta.setText("Cuenta Monetaria");
                         break;
                 }
-                
-             
-             btnDepositar.setEnabled(true);
-        }else{
-            txtnombreCuenta.setText("--");
-            labeltipoCuenta.setText("");
-            JOptionPane.showMessageDialog(null, "La cuenta solicitada no existe", "Houston tenemos un problema",  ERROR_MESSAGE);
-            btnDepositar.setEnabled(false);
-            txtMonto.setText("");
-        }
-            
-            
-       
-        }catch(SQLException e){
+
+                btnDepositar.setEnabled(true);
+            } else {
+                txtnombreCuenta.setText("--");
+                labeltipoCuenta.setText("");
+                JOptionPane.showMessageDialog(null, "La cuenta solicitada no existe", "Houston tenemos un problema", ERROR_MESSAGE);
+                btnDepositar.setEnabled(false);
+                txtMonto.setText("");
+            }
+
+        } catch (SQLException e) {
             System.out.println("Error con conectad a la DB");
             e.getMessage();
             e.printStackTrace();
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        /*
         frmCaja.setVisible(true);
         this.dispose();
         frmCaja.setLocationRelativeTo(null);
         frmCaja.setVisible(true);
-       
+         */
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnDepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepositarActionPerformed
@@ -272,58 +266,53 @@ public class Depositar extends javax.swing.JFrame {
         TransaccionDB transDB = new TransaccionDB();
         Utilidades utilidad = new Utilidades();
         Cuenta cuentica = null;
-        
+
         String cuenta = txtFieldnumCuenta.getText();
-        
-        
+
         if (tipocuenta == 1) {
             cuentica = new CuentaAhorro();
         } else if (tipocuenta == 2) {
             cuentica = new CuentaMonetaria();
         }
-        
-       
-        
-        
-        
-        if(txtMonto.getText().isEmpty() == true){
-           JOptionPane.showMessageDialog(null, "El campo está vacío, ingrese una cantidad para continuar", "Alerta", JOptionPane.INFORMATION_MESSAGE); 
-        }else{ 
+
+        if (txtMonto.getText().isEmpty() == true) {
+            JOptionPane.showMessageDialog(null, "El campo está vacío, ingrese una cantidad para continuar", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+        } else {
             double monto = Double.parseDouble(txtMonto.getText());
-        
-        try {
-            
-            if (monto <= 0) {
-                JOptionPane.showMessageDialog(null, "Ha ingresado una cantidad no valida, porfavor ingrese una cantidad mayor a \"0\" ", "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else {
-                if (usuarioDB.depositar(monto, cuenta) == true) {
-                    cuentica.setNumeroCuenta(cuenta);
-                    cuentica.setId_tipoCuenta(tipocuenta);
-                    trans.setCuenta(cuentica);
-                    trans.setMonto(monto);
-                    trans.setTipo_trans(1);
-                    trans.setFechaTransaccion(utilidad.setDateTime());
-                
-                    transDB.insertTransaccion(trans);
-                    JOptionPane.showMessageDialog(null, "Deposito realizado correctamente");
-                    
-                    txtFieldnumCuenta.setText("");
-                    txtnombreCuenta.setText("");
-                    txtMonto.setText("");
-                    labeltipoCuenta.setText("");
-                    btnDepositar.setEnabled(false);
-                    
+
+            try {
+
+                if (monto <= 0) {
+                    JOptionPane.showMessageDialog(null, "Ha ingresado una cantidad no valida, porfavor ingrese una cantidad mayor a \"0\" ", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    System.out.println("No se pudo realizar el deposito");
-                    txtnombreCuenta.setText("");
-                    txtMonto.setText("");
-                    labeltipoCuenta.setText("");
+                    if (usuarioDB.depositar(monto, cuenta) == true) {
+                        cuentica.setNumeroCuenta(cuenta);
+                        cuentica.setId_tipoCuenta(tipocuenta);
+                        trans.setCuenta(cuentica);
+                        trans.setMonto(monto);
+                        trans.setTipo_trans(1);
+                        trans.setFechaTransaccion(utilidad.setDateTime());
+
+                        transDB.insertTransaccion(trans);
+                        JOptionPane.showMessageDialog(null, "Deposito realizado correctamente");
+
+                        txtFieldnumCuenta.setText("");
+                        txtnombreCuenta.setText("");
+                        txtMonto.setText("");
+                        labeltipoCuenta.setText("");
+                        btnDepositar.setEnabled(false);
+
+                    } else {
+                        System.out.println("No se pudo realizar el deposito");
+                        txtnombreCuenta.setText("");
+                        txtMonto.setText("");
+                        labeltipoCuenta.setText("");
+                    }
                 }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                ex.getMessage();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            ex.getMessage();
-        }
         }
     }//GEN-LAST:event_btnDepositarActionPerformed
 
