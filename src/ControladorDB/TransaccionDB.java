@@ -8,10 +8,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author mikesb
- */
 public class TransaccionDB {
 
     private Connection con = null;
@@ -35,24 +31,13 @@ public class TransaccionDB {
         int tipoTrans = transaccion.getTipo_trans();
 
         try {
-            if (tipoTrans == 1) {
-
-                ps = con.prepareStatement("INSERT INTO banco.transaccion (deposito, fecha, tipoTrans_id, cuenta, saldo) VALUES (?,?,?,?,?)");
-                ps.setDouble(1, transaccion.getMonto());
-                ps.setString(2, transaccion.getFechaTransaccion());
-                ps.setInt(3, tipoTrans);
-                ps.setString(4, transaccion.getCuenta().getNumeroCuenta());
-                ps.setDouble(5, saldo);
-                ps.executeUpdate();
-            } else if (tipoTrans == 2) {
-                ps = con.prepareStatement("INSERT INTO banco.transaccion (retiro, fecha, tipoTrans_id, cuenta, saldo) VALUES (?,?,?,?,?)");
-                ps.setDouble(1, transaccion.getMonto());
-                ps.setString(2, transaccion.getFechaTransaccion());
-                ps.setInt(3, tipoTrans);
-                ps.setString(4, transaccion.getCuenta().getNumeroCuenta());
-                ps.setDouble(5, saldo);
-                ps.executeUpdate();
-            }
+            ps = con.prepareStatement("call InsertarTransaccion(?,?,?,?,?)");
+            ps.setDouble(1, transaccion.getMonto());
+            ps.setString(2, transaccion.getFechaTransaccion());
+            ps.setInt(3, tipoTrans);
+            ps.setString(4, transaccion.getCuenta().getNumeroCuenta());
+            ps.setDouble(5, saldo);
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.getMessage();
             e.printStackTrace();
@@ -73,10 +58,9 @@ public class TransaccionDB {
         modelo.addColumn("Saldo");
 
         try {
-            con = Conexion.getInstancia().Conectar();
-            ps = con.prepareStatement("SELECT  id_transaccion, fecha, retiro, deposito, saldo "
-                    + "FROM transaccion "
-                    + "WHERE cuenta = ?");
+            con = Conexion.getInstancia().Conectar(); 
+            ps = con.prepareStatement("call EstadoCuenta(?);");
+
             ps.setString(1, cuenta);
 
             rs = ps.executeQuery();
@@ -91,7 +75,6 @@ public class TransaccionDB {
                     transacciones[i] = rs.getObject(i + 1);
                 }
                 modelo.addRow(transacciones);
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,9 +83,7 @@ public class TransaccionDB {
             ps.close();
             rs.close();
         }
-
         return modelo;
-
     }
 
 }

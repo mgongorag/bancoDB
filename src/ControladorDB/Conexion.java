@@ -31,6 +31,7 @@ public class Conexion {
         Connection con = null;
 
         try {
+<<<<<<< Updated upstream
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         } catch (Exception e) {
             System.out.println("JAVA: Class.forName() error");
@@ -40,7 +41,22 @@ public class Conexion {
         try {
             String url = "jdbc:mysql://localhost:3306/Banco?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT&useSSL=false";
             String user = "root";           //En esta linea debe ser el usuario que tienen en su mysql workbench
-            String pass = "admin";      //La contraseña que crearon al momento de instalar el workbech*/
+            String pass = "admin123";      //La contraseña que crearon al momento de instalar el workbech*/
+=======
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("No se encontro el Driver");
+            ex.getMessage();
+            ex.printStackTrace();
+        }
+
+        try {
+            String url = "jdbc:mysql://localhost:3306/Banco?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            //String url = "jdbc:mysql://localhost:3306/Banco?useSSL=false";
+            String user = "Furlandb";    //En esta linea debe ser el usuario que tienen en su mysql workbench
+            String pass = "tiger";      //La contraseña que crearon al momento de instalar el workbech*/
+>>>>>>> Stashed changes
             con = DriverManager.getConnection(url, user, pass);
         } catch (SQLException e) {
             System.out.println("No se pudo conectar a la Base de Datos");
