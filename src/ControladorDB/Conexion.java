@@ -41,7 +41,7 @@ public class Conexion {
         try {
             String url = "jdbc:mysql://localhost:3306/Banco?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT&useSSL=false";
             String user = "root";           //En esta linea debe ser el usuario que tienen en su mysql workbench
-            String pass = "admin123";      //La contraseña que crearon al momento de instalar el workbech*/
+            String pass = "admin";      //La contraseña que crearon al momento de instalar el workbech*/
 =======
             Class.forName("com.mysql.cj.jdbc.Driver");
             //Class.forName("com.mysql.jdbc.Driver");
