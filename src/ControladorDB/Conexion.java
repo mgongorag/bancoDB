@@ -31,14 +31,18 @@ public class Conexion {
         Connection con = null;
 
         try {
-
+            
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            
         } catch (Exception e) {
             System.out.println("JAVA: Class.forName() error");
             e.printStackTrace();
         }
 
         try {
+            //String user = "root";    //En esta linea debe ser el usuario que tienen en su mysql workbench
+            //String pass = "admin123";      //La contraseña que crearon al momento de instalar el workbech*/
+
             String url = "jdbc:mysql://localhost:3306/Banco?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT&useSSL=false";
             String user = "root";           //En esta linea debe ser el usuario que tienen en su mysql workbench
             String pass = "admin123";      //La contraseña que crearon al momento de instalar el workbech*/
@@ -56,6 +60,9 @@ public class Conexion {
             //String url = "jdbc:mysql://localhost:3306/Banco?useSSL=false";
             String user = "Furlandb";    //En esta linea debe ser el usuario que tienen en su mysql workbench
             String pass = "tiger";      //La contraseña que crearon al momento de instalar el workbech*/
+
+
+            //String pass = "admin";      //La contraseña que crearon al momento de instalar el workbech*/
 
             con = DriverManager.getConnection(url, user, pass);
         } catch (SQLException e) {
