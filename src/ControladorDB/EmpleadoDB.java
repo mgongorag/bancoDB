@@ -12,15 +12,6 @@ package ControladorDB;
 
 import Modelo.Banco.Departamento;
 import Modelo.Banco.Empleado;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-
-
-import Modelo.Banco.Departamento;
-import Modelo.Banco.Empleado;
 import Modelo.Banco.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

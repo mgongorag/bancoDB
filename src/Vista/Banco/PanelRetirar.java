@@ -63,7 +63,7 @@ public class PanelRetirar extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         txtMonto = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
-        txtFnumCuenta = new javax.swing.JTextField();
+        txtnumCuenta = new javax.swing.JTextField();
         btnRetirar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
@@ -276,12 +276,12 @@ public class PanelRetirar extends javax.swing.JPanel {
         });
         jPanel5.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 50, 50));
 
-        txtFnumCuenta.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
-        txtFnumCuenta.setForeground(new java.awt.Color(69, 93, 122));
-        txtFnumCuenta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtFnumCuenta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 255, 255), new java.awt.Color(225, 225, 225), new java.awt.Color(255, 255, 255), new java.awt.Color(225, 225, 225)));
-        txtFnumCuenta.setMargin(new java.awt.Insets(0, 10, 0, 0));
-        jPanel5.add(txtFnumCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 340, 50));
+        txtnumCuenta.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        txtnumCuenta.setForeground(new java.awt.Color(69, 93, 122));
+        txtnumCuenta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtnumCuenta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 255, 255), new java.awt.Color(225, 225, 225), new java.awt.Color(255, 255, 255), new java.awt.Color(225, 225, 225)));
+        txtnumCuenta.setMargin(new java.awt.Insets(0, 10, 0, 0));
+        jPanel5.add(txtnumCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 340, 50));
 
         btnRetirar.setBackground(new java.awt.Color(35, 49, 66));
         btnRetirar.setFont(new java.awt.Font("Comic Sans MS", 1, 22)); // NOI18N
@@ -316,14 +316,14 @@ public class PanelRetirar extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarMouseExited
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       
+
         UsuarioDB usuarioDB = new UsuarioDB();
         Cuenta cuentica = null;
 
         try {
-            if (usuarioDB.existeCuenta(txtFnumCuenta.getText()) == true) {
+            if (usuarioDB.existeCuenta(txtnumCuenta.getText()) == true) {
 
-                cuentica = usuarioDB.buscarCuenta(txtFnumCuenta.getText());
+                cuentica = usuarioDB.buscarCuenta(txtnumCuenta.getText());
                 this.tipocuenta = cuentica.getId_tipoCuenta();
                 btnRetirar.setEnabled(true);
                 lblEfectivo.setText("Q " + cuentica.getSaldo());
@@ -333,22 +333,22 @@ public class PanelRetirar extends javax.swing.JPanel {
 
                 switch (tipocuenta) {
                     case 1:
-                    Cuenta cuentaA = new CuentaAhorro();
-                    cuentaA = cuentica;
-                    lblNombreCuenta.setText(cuentaA.getUser().getNombre() + " " + cuentaA.getUser().getApellido());
-                    lbltipoCuenta.setText("Ahorro");
-                    break;
+                        Cuenta cuentaA = new CuentaAhorro();
+                        cuentaA = cuentica;
+                        lblNombreCuenta.setText(cuentaA.getUser().getNombre() + " " + cuentaA.getUser().getApellido());
+                        lbltipoCuenta.setText("Ahorro");
+                        break;
 
                     case 2:
-                    Cuenta cuentaM = new CuentaMonetaria();
-                    cuentaM = cuentica;
-                    lblNombreCuenta.setText(cuentaM.getUser().getNombre() + " " + cuentaM.getUser().getApellido());
-                    lbltipoCuenta.setText("Monetaria");
-                    break;
+                        Cuenta cuentaM = new CuentaMonetaria();
+                        cuentaM = cuentica;
+                        lblNombreCuenta.setText(cuentaM.getUser().getNombre() + " " + cuentaM.getUser().getApellido());
+                        lbltipoCuenta.setText("Monetaria");
+                        break;
 
                 }
 
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "La cuenta solicitada no existe", "¡Alerta!", JOptionPane.ERROR_MESSAGE);
                 lblNombreCuenta.setText("");
                 txtMonto.setText("");
@@ -363,12 +363,14 @@ public class PanelRetirar extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarActionPerformed
-          UsuarioDB usuarioDB = new UsuarioDB();
+        UsuarioDB usuarioDB = new UsuarioDB();
         Transaccion trans = new Transaccion();
         TransaccionDB transDB = new TransaccionDB();
         Utilidades utilidad = new Utilidades();
         Cuenta cuentica = null;
-        String cuenta = txtMonto.getText();
+        String cuenta = txtnumCuenta.getText();
+        System.out.println("La cuenta es "+ cuenta);
+        
 
         if (tipocuenta == 1) {
             cuentica = new CuentaAhorro();
@@ -380,13 +382,14 @@ public class PanelRetirar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "El campo está vacío, ingrese una cantidad para continuar", "Alerta", JOptionPane.INFORMATION_MESSAGE);
         } else {
             double monto = Double.parseDouble(txtMonto.getText());
+            System.out.println(monto);
             if (monto <= 0) {
 
                 JOptionPane.showMessageDialog(null, "Ingrese una cantidad valida", "¡Error!", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
                     double saldo = usuarioDB.getSaldo(cuenta);
-
+                    System.out.println(saldo);
                     if (monto <= saldo) {
 
                         cuentica.setNumeroCuenta(cuenta);
@@ -438,8 +441,8 @@ public class PanelRetirar extends javax.swing.JPanel {
     private javax.swing.JLabel lblEfectivo;
     private javax.swing.JLabel lblNombreCuenta;
     private javax.swing.JLabel lbltipoCuenta;
-    private javax.swing.JTextField txtFnumCuenta;
     private javax.swing.JTextField txtMonto;
+    private javax.swing.JTextField txtnumCuenta;
     // End of variables declaration//GEN-END:variables
     private int tipocuenta;
 
