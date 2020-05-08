@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ControladorDB;
-
 
 import Modelo.Banco.Transaccion;
 import java.sql.Connection;
@@ -19,26 +13,25 @@ import javax.swing.table.DefaultTableModel;
  * @author mikesb
  */
 public class TransaccionDB {
-    
+
     private Connection con = null;
     private ResultSet rs = null;
-    
-    
+
     private static TransaccionDB instancia;
-    
-    public static TransaccionDB getInstancia(){
-        if(instancia == null)
+
+    public static TransaccionDB getInstancia() {
+        if (instancia == null) {
             instancia = new TransaccionDB();
-             return instancia;      
-            }
-    
-    
+        }
+        return instancia;
+    }
+
     public void insertTransaccion(Transaccion transaccion) throws SQLException {
-        UsuarioDB usuariodb =  new UsuarioDB();                                                 //SE INSTANCIA ESTE OBJETO PARA POSTERIORMENTE PODER HACER LA CONSULTA DEL SALDO DE LA CUENTA DEL USUARIO
+        UsuarioDB usuariodb = new UsuarioDB();                                                 //SE INSTANCIA ESTE OBJETO PARA POSTERIORMENTE PODER HACER LA CONSULTA DEL SALDO DE LA CUENTA DEL USUARIO
         double saldo = usuariodb.getSaldo(transaccion.getCuenta().getNumeroCuenta());           // SE OBTIENE EL SALDO 
         con = Conexion.getInstancia().Conectar();
         PreparedStatement ps = null;
-        
+
         int tipoTrans = transaccion.getTipo_trans();
 
         try {
@@ -66,27 +59,24 @@ public class TransaccionDB {
         } finally {
             con.close();
             ps.close();
-        } 
+        }
     }
-    
-    
+
     public DefaultTableModel getEstadoCuenta(String cuenta) throws SQLException {
         PreparedStatement ps = null;
         DefaultTableModel modelo = new DefaultTableModel();
-        
 
         modelo.addColumn("Transaccion");
         modelo.addColumn("Fecha-Hora");
         modelo.addColumn("Debito");
         modelo.addColumn("Credito");
         modelo.addColumn("Saldo");
-        
 
         try {
             con = Conexion.getInstancia().Conectar();
-            ps = con.prepareStatement("SELECT  id_transaccion, fecha, retiro, deposito, saldo "+
-                                      "FROM transaccion " + 
-                                      "WHERE cuenta = ?");
+            ps = con.prepareStatement("SELECT  id_transaccion, fecha, retiro, deposito, saldo "
+                    + "FROM transaccion "
+                    + "WHERE cuenta = ?");
             ps.setString(1, cuenta);
 
             rs = ps.executeQuery();
@@ -114,7 +104,5 @@ public class TransaccionDB {
         return modelo;
 
     }
-   
-    
-    
+
 }

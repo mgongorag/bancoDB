@@ -3,12 +3,11 @@ package ControladorDB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
- * @author WENDY GONGORA
+ * @author mgongorag
  */
 public class Conexion {
 

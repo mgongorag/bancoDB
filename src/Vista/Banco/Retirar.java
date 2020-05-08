@@ -13,7 +13,6 @@ import Modelo.Banco.CuentaMonetaria;
 import Modelo.Banco.Transaccion;
 import Modelo.Banco.Usuario;
 import Utilidades.Utilidades;
-import static Vista.Banco.Login.frmCaja;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -317,10 +316,10 @@ public class Retirar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRetirarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        frmCaja.setVisible(true);
+        /*frmCaja.setVisible(true);
         this.dispose();
         frmCaja.setLocationRelativeTo(null);
-        frmCaja.setVisible(true);
+        frmCaja.setVisible(true);*/
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

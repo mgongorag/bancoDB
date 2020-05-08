@@ -188,7 +188,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Vista/img/icon-newAccount.png"/>
+              <Image iconType="3" name="/img/icon-newAccount.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -202,7 +202,7 @@
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Vista/img/icon-new-user.png"/>
+              <Image iconType="3" name="/img/icon-new-user.png"/>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Cursor de Mano"/>
@@ -215,7 +215,7 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Vista/img/icon-credidCard.png"/>
+              <Image iconType="3" name="/img/icon-credidCard.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -229,7 +229,7 @@
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Vista/img/icon-findUser.png"/>
+              <Image iconType="3" name="/img/icon-findUser.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -243,7 +243,7 @@
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Vista/img/icon-searchAccount.png"/>
+              <Image iconType="3" name="/img/icon-searchAccount.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">

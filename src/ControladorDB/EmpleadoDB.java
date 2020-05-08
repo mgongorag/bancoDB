@@ -5,13 +5,6 @@
  */
 package ControladorDB;
 
-import Modelo.Banco.Departamento;
-import Modelo.Banco.Empleado;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  *
  * @author mikesb
@@ -94,7 +87,8 @@ public class EmpleadoDB {
                 rs = ps.executeQuery();
                 
                     if(rs.next()){
-                        usuario.setNombre(rs.getString(1));
+                        usuario.setUsername(rs.getString(1));
+                        System.out.println(usuario.getUsername());
                         usuario.setNombre(rs.getString(2));
                         usuario.setApellido(rs.getString(3));
                         depart.setId_departamento(rs.getInt(5));

@@ -3,6 +3,7 @@ package Modelo.Banco;
 
 import ControladorDB.TarjetaDB;
 import Utilidades.Utilidades;
+import Vista.Banco.InicioCaja;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -27,6 +28,9 @@ public class Pruebas2 {
         //if(tarjetadb.insertar(tarjeta, numCuenta) == true){
         //    System.out.println("registro satisfactorio");
         //}
+        
+        InicioCaja inicio = new InicioCaja();
+        inicio.setVisible(true);
         
     }
     
