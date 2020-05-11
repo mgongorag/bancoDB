@@ -10,6 +10,7 @@ import ControladorDB.UsuarioDB;
 import Modelo.Banco.Cuenta;
 import Modelo.Banco.Transaccion;
 import Utilidades.Utilidades;
+import static Utilidades.Utilidades.DEPOSITAR_CAJA;
 import static Utilidades.Utilidades.RETIRAR_CAJA;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -24,18 +27,18 @@ import javax.swing.JOptionPane;
  *
  * @author mikesb
  */
-public class PanelRetirar extends javax.swing.JPanel implements KeyListener, MouseListener {
+public class PanelDepositar extends javax.swing.JPanel implements KeyListener, MouseListener {
 
     /**
      * Creates new form panelRetirar
      */
-    public PanelRetirar() {
+    public PanelDepositar() {
         initComponents();
         txtMonto.setEnabled(false);
-        btnRetirar.setEnabled(false);
+        btnDepositar.setEnabled(false);
         btnBuscar.setEnabled(false);
         txtnumCuenta.addKeyListener(this);
-        btnRetirar.addMouseListener(this);
+        btnDepositar.addMouseListener(this);
         txtMonto.addKeyListener(this);
     }
 
@@ -71,7 +74,7 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
         txtMonto = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         txtnumCuenta = new javax.swing.JTextField();
-        btnRetirar = new javax.swing.JButton();
+        btnDepositar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(237, 245, 252));
@@ -288,21 +291,21 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
         txtnumCuenta.setMargin(new java.awt.Insets(0, 10, 0, 0));
         jPanel5.add(txtnumCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 340, 50));
 
-        btnRetirar.setBackground(new java.awt.Color(69, 235, 165));
-        btnRetirar.setFont(new java.awt.Font("Comic Sans MS", 1, 22)); // NOI18N
-        btnRetirar.setForeground(new java.awt.Color(235, 247, 253));
-        btnRetirar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8_request_money_32px_1.png"))); // NOI18N
-        btnRetirar.setText("  Retirar");
-        btnRetirar.setBorder(null);
-        btnRetirar.setContentAreaFilled(false);
-        btnRetirar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRetirar.setOpaque(true);
-        btnRetirar.addActionListener(new java.awt.event.ActionListener() {
+        btnDepositar.setBackground(new java.awt.Color(69, 235, 165));
+        btnDepositar.setFont(new java.awt.Font("Comic Sans MS", 1, 22)); // NOI18N
+        btnDepositar.setForeground(new java.awt.Color(235, 247, 253));
+        btnDepositar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8_initiate_money_transfer_30px.png"))); // NOI18N
+        btnDepositar.setText("Depositar");
+        btnDepositar.setBorder(null);
+        btnDepositar.setContentAreaFilled(false);
+        btnDepositar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDepositar.setOpaque(true);
+        btnDepositar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRetirarActionPerformed(evt);
+                btnDepositarActionPerformed(evt);
             }
         });
-        jPanel5.add(btnRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, 340, 50));
+        jPanel5.add(btnDepositar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, 340, 50));
 
         jPanel8.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 660, 630));
 
@@ -321,7 +324,6 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
     }//GEN-LAST:event_btnBuscarMouseExited
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
         String numCuenta = txtnumCuenta.getText();
         try {
             if (usuarioDB.existeCuenta(numCuenta)) {
@@ -348,36 +350,32 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
             limpiar(1);
         }
 
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarActionPerformed
+    private void btnDepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepositarActionPerformed
+
         double monto = Double.parseDouble(txtMonto.getText());
         String cuenta = this.cuenta.getNumeroCuenta();
 
-        if (utilidad.validarMonto(String.valueOf(monto)) && monto > 0) {
-            try {
-                if (usuarioDB.getSaldo(cuenta) >= monto) {
-                    if (usuarioDB.retirar(monto, cuenta)) {
-                        trans = new Transaccion(this.cuenta, monto, utilidad.setDateTime(), RETIRAR_CAJA);
-                        transDB = new TransaccionDB();
-                        transDB.insertTransaccion(trans);
-                        JOptionPane.showMessageDialog(null, "Retiro realizado con éxito", "BancoUMG", JOptionPane.INFORMATION_MESSAGE);
-                        limpiar(0);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "La cuenta no tiene suficientes fondos", "BancoUMG", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Parece que ha ocurrido un error, intente mas tarde.\n"
-                        + "Si el problema persiste contacte con soporte tecnico\n"
-                        + ex.getMessage(), "BancoUMG", JOptionPane.OK_CANCEL_OPTION);
-            }
+        try {
+            if (usuarioDB.depositar(monto, cuenta) == true) {
+                trans = new Transaccion(this.cuenta, monto, utilidad.setDateTime(), DEPOSITAR_CAJA);
+                transDB = new TransaccionDB();
+                transDB.insertTransaccion(trans);
+                JOptionPane.showMessageDialog(null, "Deposito realizado correctamente", "BancoUMG", JOptionPane.INFORMATION_MESSAGE);
+                limpiar(0);
 
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingrese un monto mayor a 0", "BancoUMG", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error\n"
+                        + "Vuelva a intentarlo", "BancoUMG", JOptionPane.WARNING_MESSAGE);
+                limpiar(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelDepositar.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnRetirarActionPerformed
+
+
+    }//GEN-LAST:event_btnDepositarActionPerformed
 
     private void limpiar(int i) {
         if (i == 0) {
@@ -389,7 +387,7 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
             txtMonto.setText("");
             txtMonto.setEnabled(false);
             txtMonto.setEnabled(false);
-            btnRetirar.setEnabled(false);
+            btnDepositar.setEnabled(false);
 
             if (cuenta != null) {
                 cuenta = null;
@@ -403,7 +401,7 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
             txtMonto.setText("");
             txtMonto.setEnabled(false);
             txtMonto.setEnabled(false);
-            btnRetirar.setEnabled(false);
+            btnDepositar.setEnabled(false);
 
             if (cuenta != null) {
                 cuenta = null;
@@ -416,7 +414,7 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnRetirar;
+    private javax.swing.JButton btnDepositar;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -463,17 +461,17 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
         Object evt = e.getSource();
 
         if (evt.equals(txtnumCuenta)) {
-            if (txtnumCuenta.getText().isEmpty()) {
-                btnBuscar.setEnabled(false);
-            } else {
+            if (utilidad.validarCuenta(txtnumCuenta.getText())) {
                 btnBuscar.setEnabled(true);
+            } else {
+                btnBuscar.setEnabled(false);
             }
         }
         if (evt.equals(txtMonto)) {
             if (utilidad.validarMonto(txtMonto.getText())) {
-                btnRetirar.setEnabled(true);
+                btnDepositar.setEnabled(true);
             } else {
-                btnRetirar.setEnabled(false);
+                btnDepositar.setEnabled(false);
             }
 
         }
@@ -498,9 +496,9 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
     public void mouseEntered(MouseEvent e) {
         Object evt = e.getSource();
 
-        if (evt.equals(btnRetirar)) {
-            if (btnRetirar.isEnabled()) {
-                btnRetirar.setBackground(new Color(33, 171, 165));
+        if (evt.equals(btnDepositar)) {
+            if (btnDepositar.isEnabled()) {
+                btnDepositar.setBackground(new Color(33, 171, 165));
             }
         }
     }
@@ -509,8 +507,8 @@ public class PanelRetirar extends javax.swing.JPanel implements KeyListener, Mou
     public void mouseExited(MouseEvent e) {
         Object evt = e.getSource();
 
-        if (evt.equals(btnRetirar)) {
-            btnRetirar.setBackground(new Color(69, 235, 165));
+        if (evt.equals(btnDepositar)) {
+            btnDepositar.setBackground(new Color(69, 235, 165));
         }
     }
 }

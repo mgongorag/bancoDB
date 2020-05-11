@@ -12,10 +12,11 @@ public class Transaccion {
     private String fechaTransaccion;
     private int tipo_trans;
 
-    public Transaccion(Cuenta cuenta, double monto, String fechaTransaccion) {
+    public Transaccion(Cuenta cuenta, double monto, String fechaTransaccion, int tipo_trans) {
         this.cuenta = cuenta;
         this.monto = monto;
         this.fechaTransaccion = fechaTransaccion;
+        this.tipo_trans = tipo_trans;
     }
 
     public Transaccion() {

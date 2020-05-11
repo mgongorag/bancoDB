@@ -1,152 +1,155 @@
 package Utilidades;
 
-
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utilidades {
     
+    public static final int RETIRAR_CAJA = 2;
+    public static final int DEPOSITAR_CAJA = 1;
+    
+    
+
     public static final int LONGITUD_DE_CUENTA = 6;
     public static final int LONGITUD_DE_CHEQUERA = 6;
     public static final int LONGITUD_NUMERO_TARJETA = 12;
     public static final int LONGITUD_CCV = 3;
     public static final int LONGITUD_PIN = 4;
-    
+
     /*CONSTANTES DE LAS COLUMNAS DE LA DEL ESTADO DE CUENTA*/
     public static final int TRANSACCION = 0;
     public static final int FECHA = 1;
     public static final int DEBITO = 2;
     public static final int CREDITO = 3;
     public static final int SALDO = 4;
-    
+
     //CONSTANTES DE LAS COLUMNAS PARA LA TABLA DE LAS TARJETAS
     public static final int NUMERO_TARJETA = 0;
     public static final int NUMERO_CUENTA = 1;
     public static final int VALIDA_DESDE = 2;
     public static final int VALIDA_HASTA = 3;
-    
+
     //CONSTANTES DE LAS COLUMNAS PARA LA TABLA DE LAS CUENTAS DE TARJETASFRM
     public static final int TIPO_CUENTA = 0;
-    
-    
-    public Utilidades(){
-        
+
+    public Utilidades() {
+
     }
+
     /*------------GENERAR NUMERO DE CUENTA -------------*/
-    
-    public String generarNumeroCuenta(int tipoCuenta){
+    public String generarNumeroCuenta(int tipoCuenta) {
         String numeroCuenta = "";
-        
-        if(tipoCuenta == 1){
+
+        if (tipoCuenta == 1) {
             numeroCuenta += "01";
-        }else if(tipoCuenta == 2) {
+        } else if (tipoCuenta == 2) {
             numeroCuenta += "02";
         }
-        
-        for(int i = 0; i < LONGITUD_DE_CUENTA; i++){
-            int numero = ((int)Math.floor(Math.random()*9+1));
+
+        for (int i = 0; i < LONGITUD_DE_CUENTA; i++) {
+            int numero = ((int) Math.floor(Math.random() * 9 + 1));
             String dato = Integer.toString(numero);
             numeroCuenta += dato;
         }
-        
+
         return numeroCuenta;
     }
-    
-    
+
     /*<---------- GENERA NUMERO DE CHEQUERA ---------------*/
-    
-    public String generarNumeroChequera(){
+    public String generarNumeroChequera() {
         String numeroChequera = "";
-        
-        for(int i = 0; i < LONGITUD_DE_CHEQUERA; i++){
-            int numero = ((int)Math.floor(Math.random()*9+1));
+
+        for (int i = 0; i < LONGITUD_DE_CHEQUERA; i++) {
+            int numero = ((int) Math.floor(Math.random() * 9 + 1));
             String dato = Integer.toString(numero);
             numeroChequera += dato;
         }
-        
+
         return numeroChequera;
     }
-    
+
     /*<------------GENERA NUMERO TARJETA ------------------>*/
-    
-    public String generarNumeroTarjeta(){
-        String numeroTarjeta ="4824";
-        
-        for(int i = 0; i < LONGITUD_NUMERO_TARJETA; i++){
-            int numero = ((int)Math.floor(Math.random()*9+1));
+    public String generarNumeroTarjeta() {
+        String numeroTarjeta = "4824";
+
+        for (int i = 0; i < LONGITUD_NUMERO_TARJETA; i++) {
+            int numero = ((int) Math.floor(Math.random() * 9 + 1));
             String dato = Integer.toString(numero);
             numeroTarjeta += dato;
         }
-        
+
         return numeroTarjeta;
     }
-    
+
     /*<-------------GENERA NUMERO DE CCV ----------------->*/
-    
-       public String generarCCV() {
+    public String generarCCV() {
         String numeroCCV = "";
 
-            for (int i = 0; i < LONGITUD_CCV; i++) {
-                int numero = (int) (Math.floor(Math.random() * 9 + 1));
-                String dato = Integer.toString(numero);
-                numeroCCV += dato;
+        for (int i = 0; i < LONGITUD_CCV; i++) {
+            int numero = (int) (Math.floor(Math.random() * 9 + 1));
+            String dato = Integer.toString(numero);
+            numeroCCV += dato;
 
-            }
+        }
         return numeroCCV;
     }
 
-    public String generarPIN(){
+    public String generarPIN() {
         String pin = "";
-        
-            for (int i = 0; i < LONGITUD_PIN; i++) {
-                int numero = (int) (Math.floor(Math.random() * 9 + 1));
-                String dato = Integer.toString(numero);
-                pin += dato;
-            }
+
+        for (int i = 0; i < LONGITUD_PIN; i++) {
+            int numero = (int) (Math.floor(Math.random() * 9 + 1));
+            String dato = Integer.toString(numero);
+            pin += dato;
+        }
         return pin;
     }
-    public String setDateTime(){
-        
+
+    public String setDateTime() {
+
         Date fecha = new Date();
         String formatoFecha;
         String formato = "yyyy/MM/dd HH:mm:ss";
         SimpleDateFormat dateSDF = new SimpleDateFormat(formato);
         formatoFecha = dateSDF.format(fecha);
-        
+
         return formatoFecha;
-        
+
     }
-    
-    public String setFechaCreacion(){
-        
+
+    public String setFechaCreacion() {
+
         Date fecha = new Date();
         String formatoFecha;
         String formato = "MM/yy";
         SimpleDateFormat dateSDF = new SimpleDateFormat(formato);
         formatoFecha = dateSDF.format(fecha);
-        
+
         return formatoFecha;
-        
+
     }
-    
-     public String setFechaExpiracion(){
-        
+
+    public String setFechaExpiracion() {
+
         Date fecha = new Date();
         String formatoFecha;
-        fecha.setYear(fecha.getYear()+1900+3);
-        fecha.setMonth(fecha.getMonth()+1);
+        fecha.setYear(fecha.getYear() + 1900 + 3);
+        fecha.setMonth(fecha.getMonth() + 1);
         String formato = "MM/yy";
         SimpleDateFormat dateSDF = new SimpleDateFormat(formato);
         formatoFecha = dateSDF.format(fecha);
-        
+
         return formatoFecha;
-        
+
     }
-     
-    public String getSpaceNumTarjeta(String tarjeta){
+
+    public String getSpaceNumTarjeta(String tarjeta) {
         String numTarjeta = "";
         String espacio = "   ";
-        
+
         numTarjeta += tarjeta.charAt(0);
         numTarjeta += tarjeta.charAt(1);
         numTarjeta += tarjeta.charAt(2);
@@ -166,10 +169,35 @@ public class Utilidades {
         numTarjeta += tarjeta.charAt(13);
         numTarjeta += tarjeta.charAt(14);
         numTarjeta += tarjeta.charAt(15);
-        
+
         return numTarjeta;
-        
-        
+
     }
-     
+
+    public boolean validarCuenta(String numCuenta) {
+        Pattern regEx = Pattern.compile("^(01|02)([0-9]{6})$");
+        Matcher match = regEx.matcher(numCuenta);
+        if (match.matches()) {
+            return true;
+        }
+        return false;
+    }
+
+    public String convertirDolares(double monto) {
+        DecimalFormat formato1 = new DecimalFormat("#.##");
+        double dolares;
+        dolares = monto / 7.8;
+
+        return formato1.format(dolares);
+    }
+
+    public boolean validarMonto(String monto) {
+        Pattern regEx = Pattern.compile("^[0-9]{1,4}([.][0-9]{0,2})?$");
+        Matcher match = regEx.matcher(monto);
+        if (match.matches()) {
+            return true;
+        }
+        return false;
+    }
+
 }

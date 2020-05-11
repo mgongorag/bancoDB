@@ -2,6 +2,7 @@
 package Modelo.Banco;
 
 import ControladorDB.TarjetaDB;
+import ControladorDB.UsuarioDB;
 import Utilidades.Utilidades;
 import Vista.Banco.InicioCaja;
 import java.sql.Date;
@@ -14,23 +15,20 @@ public class Pruebas2 {
 
     public static void main(String[] args) throws SQLException {
         
-        String numCuenta = "01715255";
+        UsuarioDB userDb = new UsuarioDB();
+        Usuario usuario;
+        Cuenta cuenta;
         
-        Tarjeta tarjeta = new Tarjeta();
+
         
-        Cuenta cuenta = new CuentaAhorro();
-        cuenta.setNumeroCuenta(numCuenta);
+        usuario = userDb.buscarUsuario("321456");
+        //System.out.println(usuario.toString());
         
-        tarjeta.setCuenta(cuenta);
+        cuenta = userDb.buscarCuenta("02196937");
+        System.out.println(cuenta.toString());
         
-        TarjetaDB tarjetadb = new TarjetaDB();
         
-        //if(tarjetadb.insertar(tarjeta, numCuenta) == true){
-        //    System.out.println("registro satisfactorio");
-        //}
         
-        InicioCaja inicio = new InicioCaja();
-        inicio.setVisible(true);
         
     }
     

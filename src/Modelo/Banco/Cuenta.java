@@ -60,9 +60,10 @@ public abstract class Cuenta {
 
     @Override
     public String toString() {
-        return "Cuenta{" + "numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", id_tipoCuenta=" + id_tipoCuenta + '}';
+        return "Cuenta{" + "numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", id_tipoCuenta=" + id_tipoCuenta + 
+                this.user.toString() + '}';
     }
-    
+
     
     
     

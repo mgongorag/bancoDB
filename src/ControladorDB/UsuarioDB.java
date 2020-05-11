@@ -5,6 +5,7 @@ import Modelo.Banco.CuentaAhorro;
 import Modelo.Banco.CuentaMonetaria;
 import Modelo.Banco.Departamento;
 import Modelo.Banco.Usuario;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -216,64 +217,60 @@ public class UsuarioDB {
         }
 
         return true;
-
     }
 
-    public Cuenta buscarCuenta(String cuenta) throws SQLException {
-        UsuarioDB usuariodb = new UsuarioDB();
-
+    public Cuenta buscarCuenta(String numCuenta) throws SQLException {
         PreparedStatement ps = null;
+        UsuarioDB userDB = new UsuarioDB();
+        Cuenta cuenta = null;
         con = Conexion.getInstancia().Conectar();
-        Cuenta Cuenta;
 
         try {
+
             ps = con.prepareStatement("call ExisteCuenta(?);");
-            ps.setString(1, cuenta);
+            ps.setString(1, numCuenta);
             rs = ps.executeQuery();
 
             if (rs.next()) {
-
+                
                 String dpi = rs.getString(3);
                 int tipoCuenta = rs.getInt(4);
-
+                
                 if (tipoCuenta == 1) {
-                    Cuenta = new CuentaAhorro();
-
-                    Cuenta.setUser(usuariodb.buscarUsuario(dpi));
-                    Cuenta.setNumeroCuenta(rs.getString(1));
-                    Cuenta.setSaldo(rs.getDouble(2));
-                    Cuenta.setId_tipoCuenta(rs.getInt(4));
-
-                    return Cuenta;
+                    cuenta = new CuentaAhorro();
+                    
+                    cuenta.setUser(userDB.buscarUsuario(dpi));
+                    
+                    cuenta.setNumeroCuenta(rs.getString(1));
+                    cuenta.setSaldo(rs.getDouble(2));
+                    cuenta.setId_tipoCuenta(tipoCuenta);
+                    
+                    return cuenta;
 
                 } else if (tipoCuenta == 2) {
-                    Cuenta = new CuentaMonetaria();
-
-                    Cuenta.setUser(usuariodb.buscarUsuario(dpi));
-                    Cuenta.setNumeroCuenta(rs.getString(1));
-                    Cuenta.setSaldo(rs.getDouble(2));
-                    Cuenta.setId_tipoCuenta(rs.getInt(4));
-                    Cuenta.setNumeroCuenta(rs.getString(5));
-
-                    return Cuenta;
+                    cuenta = new CuentaMonetaria();
+                    
+                    cuenta.setUser(userDB.buscarUsuario(dpi));
+                    cuenta.setNumeroCuenta(rs.getString(1));
+                    cuenta.setSaldo(rs.getDouble(2));
+                    cuenta.setId_tipoCuenta(tipoCuenta);
+                    
+                    return cuenta;
                 }
-
             }
-        } catch (SQLException e) {
-            System.out.println("Error al Encontrar la cuenta");
-            e.getMessage();
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            ex.getMessage();
         } finally {
             con.close();
             ps.close();
         }
-        return Cuenta = new CuentaAhorro();
+        return cuenta;
     }
 
     public boolean existeCuenta(String numCuenta) throws SQLException {
         PreparedStatement ps = null;
         con = Conexion.getInstancia().Conectar();
-        Cuenta Cuenta;
 
         try {
             ps = con.prepareStatement("call ExisteCuenta(?);");
@@ -326,25 +323,27 @@ public class UsuarioDB {
 
     public boolean retirar(double monto, String numeroCuenta) throws SQLException {
         PreparedStatement ps = null;
+        CallableStatement cs = null;
         con = Conexion.getInstancia().Conectar();
 
         try {
 
-            ps = con.prepareStatement("call Retirar(?,?);");
-            ps.setString(1, numeroCuenta);
-            ps.setDouble(0, monto);
-            ps.executeUpdate();
+            cs = con.prepareCall("call Retirar(?,?);");
+            cs.setString(1, numeroCuenta);
+            cs.setDouble(2, monto);
+
+            cs.executeUpdate();
 
             return true;
 
         } catch (SQLException e) {
-            System.out.println("Error al depositar");
+            System.out.println("Error al retirar");
             e.printStackTrace();
             e.getMessage();
             return false;
         } finally {
             con.close();
-            ps.close();
+            cs.close();
         }
 
     }
@@ -451,7 +450,8 @@ public class UsuarioDB {
         return modelo;
 
     }
-     /*<-----------------------METODO PARA INSERTAR CUENTA AHORRO SIN USUARIO-------------------->*/
+
+    /*<-----------------------METODO PARA INSERTAR CUENTA AHORRO SIN USUARIO-------------------->*/
     public void insertarCuentaA1(CuentaAhorro cuenta) throws SQLException {
         con = Conexion.getInstancia().Conectar();
         PreparedStatement ps = null;

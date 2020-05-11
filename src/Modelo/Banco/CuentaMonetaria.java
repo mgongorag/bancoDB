@@ -25,6 +25,16 @@ public class CuentaMonetaria extends Cuenta{
     public String getNumeroChequera(){
         return this.numChequera;
     }
+    
+    public void setNumeroChequera(String numChequera){
+        this.numChequera = numChequera;
+    }
+
+    public CuentaMonetaria(String numChequera) {
+        this.numChequera = numChequera;
+    }
+    
+    
         
     @Override
     protected void setTipoCuenta() {
