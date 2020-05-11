@@ -6,10 +6,17 @@
 package Vista.Banco;
 
 import ControladorDB.EmpleadoDB;
-import Modelo.Banco.Departamento;
 import Modelo.Banco.Empleado;
-import Utilidades.Utilidades;
 import Utilidades.TextPrompt;
+import Utilidades.Utilidades;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,10 +27,7 @@ import javax.swing.JOptionPane;
  *
  * @author cr9_g
  */
-public class Login extends javax.swing.JFrame {
-    
-    
-    
+public class Login extends javax.swing.JFrame implements MouseListener, ActionListener, KeyListener {
 
     /**
      * Creates new form Login
@@ -32,17 +36,24 @@ public class Login extends javax.swing.JFrame {
     InicioCaja frmCaja;
     public static AtencionCliente frmAtenCliente;
     public static RecursosHumanos frmRecursosHumanos;
-    
-    
-    
+
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
-        TextPrompt placeholder1 = new TextPrompt("Usuario", txtFieldUser);
-        TextPrompt placeholder2 = new TextPrompt("Contraseña", JPassword);
+        TextPrompt placeholder1 = new TextPrompt("Ingrese su usuario", txtFieldUser);
+        TextPrompt placeholder2 = new TextPrompt("Ingrese su contraseña", JPassword);
+
+        placeholder1.changeAlpha(70);
+        placeholder2.changeAlpha(70);
+        placeholder1.changeStyle(Font.BOLD);
+        placeholder2.changeStyle(Font.BOLD);
+
+        this.setSize(450, 640);
+
+        btnLogin.addMouseListener(this);
+        btnLogin.addActionListener(this);
+        JPassword.addKeyListener(this);
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,24 +69,26 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtFieldUser = new javax.swing.JTextField();
         JPassword = new javax.swing.JPasswordField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(410, 610));
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(231, 231, 231));
+        jPanel1.setBackground(new java.awt.Color(187, 225, 250));
+        jPanel1.setPreferredSize(new java.awt.Dimension(410, 610));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/image1.png"))); // NOI18N
-        jLabel1.setText("jLabel1");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bank_78392.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 260, -1));
 
-        jLabel2.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(15, 76, 117));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("INICIAR SESION");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 380, 50));
 
-        txtFieldUser.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
+        txtFieldUser.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         txtFieldUser.setForeground(new java.awt.Color(107, 107, 107));
         txtFieldUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         txtFieldUser.setAlignmentX(0.0F);
@@ -89,96 +102,36 @@ public class Login extends javax.swing.JFrame {
                 txtFieldUserActionPerformed(evt);
             }
         });
+        jPanel1.add(txtFieldUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 380, 50));
 
-        JPassword.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
+        JPassword.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         JPassword.setForeground(new java.awt.Color(107, 107, 107));
         JPassword.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         JPassword.setAlignmentX(0.0F);
         JPassword.setAlignmentY(0.0F);
         JPassword.setBorder(null);
+        jPanel1.add(JPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 380, 50));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/password-icon1.png"))); // NOI18N
-        jLabel3.setAlignmentY(0.0F);
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user-icon1.png"))); // NOI18N
-
-        jButton2.setBackground(new java.awt.Color(0, 171, 197));
-        jButton2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("INICIAR SESION");
-        jButton2.setBorder(null);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(127, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(txtFieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(34, 34, 34)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtFieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(72, 72, 72)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
-        );
+        btnLogin.setBackground(new java.awt.Color(50, 130, 184));
+        btnLogin.setFont(new java.awt.Font("Comic Sans MS", 1, 22)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(235, 247, 253));
+        btnLogin.setText("Iniciar Sesión");
+        btnLogin.setBorder(null);
+        btnLogin.setContentAreaFilled(false);
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.setOpaque(true);
+        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 380, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -189,96 +142,11 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFieldUserActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        Empleado usuario = new Empleado();
-        Utilidades utilidad = new Utilidades();
-        usuario.setUsername(txtFieldUser.getText());
-        usuario.setPassword(JPassword.getText());
-        usuario.setLast_session(utilidad.setDateTime());
-        
-        
-        
-        EmpleadoDB empleadoSQL = new EmpleadoDB();
-        Empleado userEmpleado = new Empleado();
-        
-        
-        try {
-            boolean verificar = empleadoSQL.LoginEmpleado(usuario);
-                if(verificar == true){
-                    
-                    /*frmCaja.setVisible(true);
-                    JOptionPane.showMessageDialog(null, "Se Ha logeado correctamente");*/
-                    
-                    
-                    //SELECCIONAR TODOS LOS ATRIBUTOS DEL USUARIO EN LA DB
-                    
-                    userEmpleado = empleadoSQL.getEmpleado(usuario);
-                    
-                    
-                    int id = userEmpleado.getDepartamento().getId_departamento();
-                    String usuarioLog = userEmpleado.getUsername();
-                    
-                    
-                        switch (id) {
-                        case 1:
-                            
-                            JOptionPane.showMessageDialog(null, "Lo sentimos, pero no puedes ingresar porque ella no te ama! :c ", "Ha ocurrido un errorcito compa", JOptionPane.ERROR_MESSAGE);
-                            
-                            break;
-                        case 2:
-                            frmCaja = new InicioCaja(id, usuarioLog, "Cajero", "BancoUMG");
-                            JOptionPane.showMessageDialog(null, "¡Bienvenido Nuevamente " + userEmpleado.getNombre()
-                                    + " " + userEmpleado.getApellido() + "!");
-                            this.dispose();
-                            frmCaja.setVisible(true);
-                            break;
-                            
-                        case 3:
-                            frmAtenCliente = new AtencionCliente();
-                            JOptionPane.showMessageDialog(null, "¡Bienvenido Nuevamente " + userEmpleado.getNombre()
-                                    + " " + userEmpleado.getApellido() + "!");
-                            this.setVisible(false);
-                            AtencionCliente.labelUser.setText(userEmpleado.getUsername());
-                            frmAtenCliente.setLocationRelativeTo(null);
-                            frmAtenCliente.setVisible(true);
-                             break;
-                        
-                        case 4:
-                            frmRecursosHumanos = new RecursosHumanos();
-                            JOptionPane.showMessageDialog(null, "!Bienvenido Nuevamente " + userEmpleado.getNombre()
-                                    + " " + userEmpleado.getApellido() + "!");
-                            this.setVisible(false);
-                            frmRecursosHumanos.setLocationRelativeTo(null);
-                            frmRecursosHumanos.setVisible(true);
-                            break;
-                    }
-                         
-                    
-                    
-                    
-                    
-                }else if(txtFieldUser.getText().isEmpty() || JPassword.getText().isEmpty()){
-                    
-                    JOptionPane.showMessageDialog(null, "Rellene los campos porfavor!");
-                }else{
-                    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectas!");
-                }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
-       
-        
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -310,14 +178,145 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
+    private void iniciarSesion() {
+        Empleado usuario = new Empleado();
+        Utilidades utilidad = new Utilidades();
+        usuario.setUsername(txtFieldUser.getText());
+        usuario.setPassword(JPassword.getText());
+        usuario.setLast_session(utilidad.setDateTime());
+        EmpleadoDB empleadoSQL = new EmpleadoDB();
+        Empleado userEmpleado = new Empleado();
+
+        try {
+            boolean verificar = empleadoSQL.LoginEmpleado(usuario);
+            if (verificar == true) {
+
+                /*frmCaja.setVisible(true);
+                    JOptionPane.showMessageDialog(null, "Se Ha logeado correctamente");*/
+                //SELECCIONAR TODOS LOS ATRIBUTOS DEL USUARIO EN LA DB
+                userEmpleado = empleadoSQL.getEmpleado(usuario);
+
+                int id = userEmpleado.getDepartamento().getId_departamento();
+                String usuarioLog = userEmpleado.getUsername();
+
+                switch (id) {
+                    case 1:
+
+                        JOptionPane.showMessageDialog(null, "Lo sentimos, pero no puedes ingresar porque ella no te ama! :c ", "Ha ocurrido un errorcito compa", JOptionPane.ERROR_MESSAGE);
+
+                        break;
+                    case 2:
+                        frmCaja = new InicioCaja(id, usuarioLog, "Cajero", "BancoUMG");
+                        JOptionPane.showMessageDialog(null, "¡Bienvenido Nuevamente " + userEmpleado.getNombre()
+                                + " " + userEmpleado.getApellido() + "!");
+                        this.dispose();
+                        frmCaja.setVisible(true);
+                        break;
+
+                    case 3:
+                        frmAtenCliente = new AtencionCliente();
+                        JOptionPane.showMessageDialog(null, "¡Bienvenido Nuevamente " + userEmpleado.getNombre()
+                                + " " + userEmpleado.getApellido() + "!");
+                        this.setVisible(false);
+                        AtencionCliente.labelUser.setText(userEmpleado.getUsername());
+                        frmAtenCliente.setLocationRelativeTo(null);
+                        frmAtenCliente.setVisible(true);
+                        break;
+
+                    case 4:
+                        frmRecursosHumanos = new RecursosHumanos();
+                        JOptionPane.showMessageDialog(null, "!Bienvenido Nuevamente " + userEmpleado.getNombre()
+                                + " " + userEmpleado.getApellido() + "!");
+                        this.setVisible(false);
+                        frmRecursosHumanos.setLocationRelativeTo(null);
+                        frmRecursosHumanos.setVisible(true);
+                        break;
+                }
+
+            } else if (txtFieldUser.getText().isEmpty() || JPassword.getText().isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Rellene los campos porfavor!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectas!");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField JPassword;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtFieldUser;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        Object evt = e.getSource();
+        
+        if(evt.equals(btnLogin)){
+            btnLogin.setBackground(new Color(35, 49, 66));
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        Object evt = e.getSource();
+        
+        if(evt.equals(btnLogin)){
+            btnLogin.setBackground(new Color(50,130,184));
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object evt = e.getSource();
+        
+        if(evt.equals(btnLogin)){
+            iniciarSesion();
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        Object evt = e.getSource();
+        
+        if(evt.equals(JPassword)){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                System.out.println("ha presionado enter");
+                iniciarSesion();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
+    }
 }

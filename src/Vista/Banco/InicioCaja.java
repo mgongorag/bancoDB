@@ -85,6 +85,8 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnTransferir.addMouseListener(this);
         btnAjustes.addMouseListener(this);
         btnLogout.addMouseListener(this);
+        
+        btnInicio.setBackground(new Color(50, 130, 184));
         container.add(panelRetirar);
     }
     
