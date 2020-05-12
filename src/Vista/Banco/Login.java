@@ -17,7 +17,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +39,7 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
-        TextPrompt placeholder1 = new TextPrompt("Ingrese su usuario", txtFieldUser);
+        TextPrompt placeholder1 = new TextPrompt("Ingrese su usuario", txtUsername);
         TextPrompt placeholder2 = new TextPrompt("Ingrese su contraseña", JPassword);
 
         placeholder1.changeAlpha(70);
@@ -53,6 +52,29 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
         btnLogin.addMouseListener(this);
         btnLogin.addActionListener(this);
         JPassword.addKeyListener(this);
+    }
+    
+    public Login(String username){
+        initComponents();
+        txtUsername.setText(username);
+        
+        this.setLocationRelativeTo(null);
+        TextPrompt placeholder1 = new TextPrompt("Ingrese su usuario", txtUsername);
+        TextPrompt placeholder2 = new TextPrompt("Ingrese su contraseña", JPassword);
+
+        placeholder1.changeAlpha(70);
+        placeholder2.changeAlpha(70);
+        placeholder1.changeStyle(Font.BOLD);
+        placeholder2.changeStyle(Font.BOLD);
+
+        this.setSize(450, 640);
+
+        btnLogin.addMouseListener(this);
+        btnLogin.addActionListener(this);
+        JPassword.addKeyListener(this);
+        
+        
+        
     }
 
     /**
@@ -67,7 +89,7 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtFieldUser = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         JPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
 
@@ -88,21 +110,21 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
         jLabel2.setText("INICIAR SESION");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 380, 50));
 
-        txtFieldUser.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        txtFieldUser.setForeground(new java.awt.Color(107, 107, 107));
-        txtFieldUser.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        txtFieldUser.setAlignmentX(0.0F);
-        txtFieldUser.setAlignmentY(0.0F);
-        txtFieldUser.setBorder(null);
-        txtFieldUser.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        txtFieldUser.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        txtFieldUser.setSelectionColor(new java.awt.Color(102, 102, 102));
-        txtFieldUser.addActionListener(new java.awt.event.ActionListener() {
+        txtUsername.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        txtUsername.setForeground(new java.awt.Color(107, 107, 107));
+        txtUsername.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtUsername.setAlignmentX(0.0F);
+        txtUsername.setAlignmentY(0.0F);
+        txtUsername.setBorder(null);
+        txtUsername.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtUsername.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtUsername.setSelectionColor(new java.awt.Color(102, 102, 102));
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldUserActionPerformed(evt);
+                txtUsernameActionPerformed(evt);
             }
         });
-        jPanel1.add(txtFieldUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 380, 50));
+        jPanel1.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 380, 50));
 
         JPassword.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
         JPassword.setForeground(new java.awt.Color(107, 107, 107));
@@ -138,9 +160,9 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFieldUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldUserActionPerformed
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFieldUserActionPerformed
+    }//GEN-LAST:event_txtUsernameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,7 +203,7 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
     private void iniciarSesion() {
         Empleado usuario = new Empleado();
         Utilidades utilidad = new Utilidades();
-        usuario.setUsername(txtFieldUser.getText());
+        usuario.setUsername(txtUsername.getText());
         usuario.setPassword(JPassword.getText());
         usuario.setLast_session(utilidad.setDateTime());
         EmpleadoDB empleadoSQL = new EmpleadoDB();
@@ -233,7 +255,7 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
                         break;
                 }
 
-            } else if (txtFieldUser.getText().isEmpty() || JPassword.getText().isEmpty()) {
+            } else if (txtUsername.getText().isEmpty() || JPassword.getText().isEmpty()) {
 
                 JOptionPane.showMessageDialog(null, "Rellene los campos porfavor!");
             } else {
@@ -253,7 +275,7 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtFieldUser;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
     @Override

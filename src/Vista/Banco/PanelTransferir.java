@@ -743,6 +743,7 @@ public class PanelTransferir extends javax.swing.JPanel implements MouseListener
         txtCuentaEmisora.setText("");
         txtCuentaReceptora.setText("");
         txtMonto.setText("Q 00.00");
+        txtMonto.setText("");
         txtPropEmisor.setText("");
         txtPropRecep.setText(""); 
     }

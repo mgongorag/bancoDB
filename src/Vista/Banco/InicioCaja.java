@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,23 +23,24 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
     public static final int TRANSFERIR = 3;
     public static final int AJUSTES = 4;
     public static final int LOGOUT = 5;
-    
+
     public static final String LINICIO = "INICIO";
     public static final String LRETIRAR = "RETIRAR";
     public static final String LDEPOSITAR = "DEPOSITAR";
     public static final String LTRANSFERIR = "TRANSFERIR";
     public static final String LAJUSTES = "AJUSTES";
-    
+
     protected int btnSelect;
     //public static final Color colorSeleccion = new Color(147, 222, 255);
     private int INCIO;
-    
+
     PanelRetirar panelRetirar = new PanelRetirar();
     PanelInicio panelInicio = new PanelInicio();
     PanelDepositar panelDepositar = new PanelDepositar();
     PanelAjustes panelAjustes = new PanelAjustes();
     PanelTransferir panelTransferir = new PanelTransferir();
-    
+    Login frmLogin;
+
     public InicioCaja() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -51,24 +53,26 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnTransferir.addActionListener(this);
         btnAjustes.addActionListener(this);
         btnLogout.addActionListener(this);
-        
+
         btnInicio.addMouseListener(this);
         btnDepositar.addMouseListener(this);
         btnRetirar.addMouseListener(this);
         btnTransferir.addMouseListener(this);
         btnAjustes.addMouseListener(this);
         btnLogout.addMouseListener(this);
-        
+
         btnInicio.setBackground(new Color(50, 130, 184));
-        
+
         container.add(panelInicio);
     }
-    
+
     public InicioCaja(int id, String username, String tipoUser, String nombreBanco) {
         initComponents();
         this.setIconImage(new ImageIcon(getClass().getResource("/img/bank.png")).getImage());
         this.setTitle("Sistema Bancario  ~  " + nombreBanco);
         this.setLocationRelativeTo(null);
+
+        this.username = username;
         lbluserName.setText(username);
         lbltypeUser.setText(tipoUser);
         lblNombreBanco.setText(nombreBanco);
@@ -78,18 +82,18 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnTransferir.addActionListener(this);
         btnAjustes.addActionListener(this);
         btnLogout.addActionListener(this);
-        
+
         btnInicio.addMouseListener(this);
         btnDepositar.addMouseListener(this);
         btnRetirar.addMouseListener(this);
         btnTransferir.addMouseListener(this);
         btnAjustes.addMouseListener(this);
         btnLogout.addMouseListener(this);
-        
+
         btnInicio.setBackground(new Color(50, 130, 184));
-        container.add(panelRetirar);
+        container.add(panelInicio);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -372,11 +376,12 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
     private javax.swing.JPanel panelPrincipalLateral;
     private javax.swing.JPanel panelfooterLateral;
     // End of variables declaration//GEN-END:variables
+    private String username;
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object evt = e.getSource();
-        
+
         if (evt.equals(btnInicio)) {
             btnSelect = INCIO;
             lblPestania.setText((LINICIO));
@@ -387,16 +392,16 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
             btnTransferir.setBackground(new Color(35, 49, 66));
             btnAjustes.setBackground(new Color(35, 49, 66));
             btnLogout.setBackground(new Color(35, 49, 66));
-            
+
             panelInicio.setVisible(true);
             panelRetirar.setVisible(false);
             panelDepositar.setVisible(false);
             panelTransferir.setVisible(false);
             panelAjustes.setVisible(false);
-            
+
             container.add(panelInicio);
             container.validate();
-            
+
         } else if (evt.equals(btnRetirar)) {
             btnSelect = RETIRAR;
             lblPestania.setText((LRETIRAR));
@@ -407,16 +412,16 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
             btnTransferir.setBackground(new Color(35, 49, 66));
             btnAjustes.setBackground(new Color(35, 49, 66));
             btnLogout.setBackground(new Color(35, 49, 66));
-            
+
             panelRetirar.setVisible(true);
             panelInicio.setVisible(false);
             panelDepositar.setVisible(false);
             panelTransferir.setVisible(false);
             panelAjustes.setVisible(false);
-            
+
             container.add(panelRetirar);
             container.validate();
-            
+
         } else if (evt.equals(btnDepositar)) {
             btnSelect = DEPOSITAR;
             lblPestania.setText((LDEPOSITAR));
@@ -427,16 +432,16 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
             btnTransferir.setBackground(new Color(35, 49, 66));
             btnAjustes.setBackground(new Color(35, 49, 66));
             btnLogout.setBackground(new Color(35, 49, 66));
-            
+
             panelInicio.setVisible(false);
             panelRetirar.setVisible(false);
             panelDepositar.setVisible(true);
             panelTransferir.setVisible(false);
             panelAjustes.setVisible(false);
-            
+
             container.add(panelDepositar);
             container.validate();
-            
+
         } else if (evt.equals(btnTransferir)) {
             btnSelect = TRANSFERIR;
             lblPestania.setText((LTRANSFERIR));
@@ -447,16 +452,16 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
             btnDepositar.setBackground(new Color(35, 49, 66));
             btnAjustes.setBackground(new Color(35, 49, 66));
             btnLogout.setBackground(new Color(35, 49, 66));
-            
+
             panelInicio.setVisible(false);
             panelRetirar.setVisible(false);
             panelDepositar.setVisible(false);
             panelTransferir.setVisible(true);
             panelAjustes.setVisible(false);
-            
+
             container.add(panelTransferir);
             container.validate();
-            
+
         } else if (evt.equals(btnAjustes)) {
             btnSelect = AJUSTES;
             lblPestania.setText((LAJUSTES));
@@ -467,16 +472,16 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
             btnDepositar.setBackground(new Color(35, 49, 66));
             btnTransferir.setBackground(new Color(35, 49, 66));
             btnLogout.setBackground(new Color(35, 49, 66));
-            
+
             panelInicio.setVisible(false);
             panelRetirar.setVisible(false);
             panelDepositar.setVisible(false);
             panelTransferir.setVisible(false);
             panelAjustes.setVisible(true);
-            
+
             container.add(panelAjustes);
             container.validate();
-            
+
         } else if (evt.equals(btnLogout)) {
             btnSelect = LOGOUT;
             System.out.println("Boton Logout clickeado");
@@ -487,8 +492,45 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
             btnTransferir.setBackground(new Color(35, 49, 66));
             btnAjustes.setBackground(new Color(35, 49, 66));
         }
+
+        if (evt.equals(btnLogout)) {
+            ImageIcon icon
+                    = new ImageIcon(getClass().getClassLoader().getResource("img/icons8_shutdown_80px.png"));
+
+            int res = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea salir?", "BancoUMG ", JOptionPane.YES_NO_OPTION, 0,icon);
+            switch (res) {
+                case 0:
+                    frmLogin = new Login(this.username);
+                    this.dispose();
+                    frmLogin.setVisible(true);
+                    break;
+                case 1:
+
+                    btnSelect = INCIO;
+                    lblPestania.setText((LINICIO));
+                    System.out.println("boton Inicio clickeado");
+                    btnInicio.setBackground(new Color(50, 130, 184));
+                    btnRetirar.setBackground(new Color(35, 49, 66));
+                    btnDepositar.setBackground(new Color(35, 49, 66));
+                    btnTransferir.setBackground(new Color(35, 49, 66));
+                    btnAjustes.setBackground(new Color(35, 49, 66));
+                    btnLogout.setBackground(new Color(35, 49, 66));
+
+                    panelInicio.setVisible(true);
+                    panelRetirar.setVisible(false);
+                    panelDepositar.setVisible(false);
+                    panelTransferir.setVisible(false);
+                    panelAjustes.setVisible(false);
+
+                    container.add(panelInicio);
+                    container.validate();
+
+                    break;
+
+            }
+        }
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
         /*
@@ -548,90 +590,90 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
             btnInforme.setBackground(new Color(35, 49, 66));
             btnAjustes.setBackground(new Color(35, 49, 66));
         }*/
-        
+
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
     }
-    
+
     @Override
     public void mouseReleased(MouseEvent e) {
     }
-    
+
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+
         Object evt = e.getSource();
-        
+
         if (evt.equals(btnInicio)) {
             btnInicio.setBackground(new Color(50, 130, 184));
         }
-        
+
         if (evt.equals(btnRetirar)) {
             btnRetirar.setBackground(new Color(50, 130, 184));
         }
-        
+
         if (evt.equals(btnDepositar)) {
             btnDepositar.setBackground(new Color(50, 130, 184));
         }
-        
+
         if (evt.equals(btnTransferir)) {
             btnTransferir.setBackground(new Color(50, 130, 184));
         }
-        
+
         if (evt.equals(btnAjustes)) {
             btnAjustes.setBackground(new Color(50, 130, 184));
         }
-        
+
         if (evt.equals(btnLogout)) {
             btnLogout.setBackground(new Color(50, 130, 184));
         }
-        
+
     }
-    
+
     @Override
     public void mouseExited(MouseEvent e) {
-        
+
         Object evt = e.getSource();
-        
+
         if (evt.equals(btnInicio)) {
             if (btnSelect != INICIO) {
                 btnInicio.setBackground(new Color(35, 49, 66));
             }
         }
-        
+
         if (evt.equals(btnRetirar)) {
             if (btnSelect != RETIRAR) {
                 btnRetirar.setBackground(new Color(35, 49, 66));
-                
+
             }
         }
-        
+
         if (evt.equals(btnDepositar)) {
             if (btnSelect != DEPOSITAR) {
                 btnDepositar.setBackground(new Color(35, 49, 66));
             }
         }
-        
+
         if (evt.equals(btnTransferir)) {
             if (btnSelect != TRANSFERIR) {
                 btnTransferir.setBackground(new Color(35, 49, 66));
             }
         }
-        
+
         if (evt.equals(btnAjustes)) {
             if (btnSelect != AJUSTES) {
                 btnAjustes.setBackground(new Color(35, 49, 66));
             }
         }
-        
+
         if (evt.equals(btnLogout)) {
             if (btnSelect != LOGOUT) {
                 btnLogout.setBackground(new Color(35, 49, 66));
             }
         }
-        
+
     }
-    
+
 }
