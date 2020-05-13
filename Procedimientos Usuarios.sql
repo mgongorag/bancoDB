@@ -45,3 +45,22 @@ begin
     u.genero = genero where u.dpi = dpi;
 end$$
 delimiter ;
+
+--Procedimiento para buscar un usuario por medio de su numero de cuenta, dpi o apellido
+delimiter $$
+create procedure BuscarUsuario(
+	in num_cuenta varchar(20),
+    in dpi varchar(20),
+    in apellido varchar(45)
+)
+begin 
+	select u.dpi, u.nombre, u.apellido, u.genero, u.telefono, t.tipo_cuenta, c.numero_cuenta, c.saldo 
+    from usuario u join cuenta c on  u.dpi = c.Usuario_dpi
+    join tipo_cuenta t on c.tipo_cuenta_id = t.id
+    where (num_cuenta is null or c.numero_cuenta like concat(num_cuenta,'%'))
+    and (dpi is null or u.dpi like concat(dpi,'%'))
+    and (apellido is null or u.apellido like concat(apellido,'%'));
+end$$
+delimiter ;
+
+call BuscarUsuario('0','','Z');
