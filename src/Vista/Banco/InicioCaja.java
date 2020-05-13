@@ -160,7 +160,7 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnAjustes.setText("  Ajustes");
         btnAjustes.setBorder(null);
         btnAjustes.setContentAreaFilled(false);
-        btnAjustes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAjustes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAjustes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnAjustes.setOpaque(true);
         panelfooterLateral.add(btnAjustes);
@@ -173,7 +173,7 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnLogout.setText("  Cerrar Sesión");
         btnLogout.setBorder(null);
         btnLogout.setContentAreaFilled(false);
-        btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnLogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnLogout.setOpaque(true);
         panelfooterLateral.add(btnLogout);
@@ -198,7 +198,7 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnInicio.setText("  Inicio");
         btnInicio.setBorder(null);
         btnInicio.setContentAreaFilled(false);
-        btnInicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInicio.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnInicio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnInicio.setOpaque(true);
         panelPrincipalLateral.add(btnInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 300, 50));
@@ -210,7 +210,7 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnRetirar.setText("  Retirar");
         btnRetirar.setBorder(null);
         btnRetirar.setContentAreaFilled(false);
-        btnRetirar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRetirar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnRetirar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnRetirar.setOpaque(true);
         panelPrincipalLateral.add(btnRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 300, 50));
@@ -222,7 +222,7 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnDepositar.setText("  Depositar");
         btnDepositar.setBorder(null);
         btnDepositar.setContentAreaFilled(false);
-        btnDepositar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDepositar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnDepositar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDepositar.setOpaque(true);
         panelPrincipalLateral.add(btnDepositar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 300, 50));
@@ -234,7 +234,7 @@ public class InicioCaja extends javax.swing.JFrame implements ActionListener, Mo
         btnTransferir.setText("  Transferir");
         btnTransferir.setBorder(null);
         btnTransferir.setContentAreaFilled(false);
-        btnTransferir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTransferir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnTransferir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnTransferir.setOpaque(true);
         panelPrincipalLateral.add(btnTransferir, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 300, 50));
