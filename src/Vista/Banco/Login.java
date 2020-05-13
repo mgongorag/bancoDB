@@ -116,7 +116,7 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
         txtUsername.setAlignmentX(0.0F);
         txtUsername.setAlignmentY(0.0F);
         txtUsername.setBorder(null);
-        txtUsername.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtUsername.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         txtUsername.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtUsername.setSelectionColor(new java.awt.Color(102, 102, 102));
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +140,7 @@ public class Login extends javax.swing.JFrame implements MouseListener, ActionLi
         btnLogin.setText("Iniciar Sesión");
         btnLogin.setBorder(null);
         btnLogin.setContentAreaFilled(false);
-        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnLogin.setOpaque(true);
         jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 380, 50));
 
