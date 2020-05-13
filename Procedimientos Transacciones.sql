@@ -29,3 +29,21 @@ begin
 	where transaccion.cuenta = cuenta;
 end$$
 delimiter ;
+
+--Procedimiento para transferencia de fondos
+delimiter $$
+create procedure TransferenciaFondos(
+	in cuenta_debito varchar(20),
+    in cuenta_credito varchar(20),
+    in monto double
+)
+
+begin 
+	select saldo into saldob from cuenta where numero_cuenta = cuenta_debito;
+    if saldob > monto then
+		update banco.cuenta set saldo = saldo - monto
+		where numero_cuenta = cuenta_debito;
+        
+end$$
+delimiter ;
+
