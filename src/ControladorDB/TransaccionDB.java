@@ -1,6 +1,7 @@
 package ControladorDB;
 
 import Modelo.Banco.Transaccion;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ public class TransaccionDB {
 
     private Connection con = null;
     private ResultSet rs = null;
+    private PreparedStatement ps = null;
+    private CallableStatement cs = null;
 
     private static TransaccionDB instancia;
 
@@ -85,5 +88,31 @@ public class TransaccionDB {
         }
         return modelo;
     }
+    
+    public boolean transferirFondos(String cuentaDebito, String cuentaCredito, double monto) throws SQLException{
+        
+        
+        try{
+        con = Conexion.getInstancia().Conectar();
+        cs = con.prepareCall("call TransferenciaFondos (?,?,?)");
+        cs.setString(1, cuentaDebito);
+        cs.setString(2, cuentaCredito);
+        cs.setDouble(3, monto);
+        
+        cs.execute();
+        }catch(SQLException exc){
+            System.out.println("Ocurrio un problema en la transferencia de fondos");
+            System.out.println(exc.getErrorCode());
+            System.out.println(exc.getSQLState());
+            return false;
+        }finally{
+            cs.close();
+            con.close();
+        }
+        
+        return true;
+    }
+    
+    
 
 }

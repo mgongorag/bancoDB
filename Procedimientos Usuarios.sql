@@ -54,7 +54,7 @@ create procedure BuscarUsuario(
     in apellido varchar(45)
 )
 begin 
-	select u.dpi, u.nombre, u.apellido, u.genero, u.telefono, t.tipo_cuenta, c.numero_cuenta, c.saldo 
+	select u.dpi, u.nombre, u.apellido, u.genero, u.telefono, c.numero_cuenta, c.saldo, t.tipo_cuenta, t.id
     from usuario u join cuenta c on  u.dpi = c.Usuario_dpi
     join tipo_cuenta t on c.tipo_cuenta_id = t.id
     where (num_cuenta is null or c.numero_cuenta like concat(num_cuenta,'%'))

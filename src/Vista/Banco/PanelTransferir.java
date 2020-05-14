@@ -1,33 +1,40 @@
 package Vista.Banco;
 
+import ControladorDB.TransaccionDB;
+import ControladorDB.UsuarioDB;
 import Modelo.Banco.Cuenta;
 import Modelo.Banco.Usuario;
 import Utilidades.TextPrompt;
 import Utilidades.Utilidades;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 /**
  *
  * @author mikesb
  */
-public class PanelTransferir extends javax.swing.JPanel implements MouseListener, KeyListener {
+public class PanelTransferir extends javax.swing.JPanel implements MouseListener, KeyListener, ActionListener {
 
     public PanelTransferir() {
         initComponents();
-        txtPropRecep.setVisible(false);
-        txtPropEmisor.setVisible(false);
-        lblPropEmisor.setVisible(true);
-        lblPropReceptor.setVisible(false);
 
         btnTransferir.addMouseListener(this);
         txtCuentaEmisora.addKeyListener(this);
         txtCuentaReceptora.addKeyListener(this);
         txtMonto.addKeyListener(this);
+        btnTransferir.addMouseListener(this);
+        btnTransferir.addActionListener(this);
 
         TextPrompt phMonto = new TextPrompt("Q 00.00", txtMonto);
 
@@ -35,8 +42,7 @@ public class PanelTransferir extends javax.swing.JPanel implements MouseListener
         phMonto.setHorizontalAlignment(SwingConstants.CENTER);
 
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -744,36 +750,171 @@ public class PanelTransferir extends javax.swing.JPanel implements MouseListener
         add(panelInfo);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void limpiar() {
-        txtCuentaEmisora.setText("");
-        txtCuentaReceptora.setText("");
-        txtMonto.setText("Q 00.00");
-        txtMonto.setText("");
-        txtPropEmisor.setText("");
-        txtPropRecep.setText("");
+    public void limpiar(int op) {
+
+        if (op == 0) {
+            txtCuentaEmisora.setText("");
+            txtCuentaReceptora.setText("");
+            txtMonto.setText("Q 00.00");
+            txtMonto.setText("");
+            txtPropEmisor.setText("");
+            txtPropRecep.setText("");
+            lblDolaresEmisor.setText("--");
+            lblDolaresReceptor.setText("--");
+            lblSaldoEmisor.setText("--");
+            lblSaldoReceptor.setText("--");
+            lblTipoCuentaEmisor.setText("--");
+            lblTipoCuentaReceptor.setText("--");
+            cuentaEncontrada1 = false;
+            cuentaEncontrada2 = false;
+        }
+        if (op == 1) {
+
+            txtMonto.setText("Q 00.00");
+            txtMonto.setText("");
+            txtPropEmisor.setText("");
+            lblDolaresEmisor.setText("Q --");
+            lblSaldoEmisor.setText("Q --");
+            lblTipoCuentaEmisor.setText("Q --");
+            btnTransferir.setEnabled(false);
+            cuentaEncontrada1 = false;
+
+        }
+
+        if (op == 2) {
+
+            lblSaldoReceptor.setText("");
+            txtPropRecep.setText("");
+            lblDolaresReceptor.setText("Q --");
+            lblSaldoReceptor.setText("Q --");
+            lblTipoCuentaReceptor.setText("Q --");
+            btnTransferir.setEnabled(false);
+            cuentaEncontrada2 = false;
+        }
+
     }
 
-    public void buscarCuenta(int opcion) {
+    public void buscarCuenta(int opcion) throws SQLException {
         String cuenta;
+        String nombreEmi;
+        String nombreRec;
+        double saldo;
+        String tipoCuenta;
+
         utilidad = new Utilidades();
+
         if (opcion == 0) {
             cuenta = txtCuentaEmisora.getText();
             if (utilidad.validarCuenta(cuenta)) {
-                System.out.println("Buscando cuenta emisora " + cuenta + " en la Base de datos");
 
+                cuentas = userdb.buscarUsuario(cuenta, null, null);
+                if (!cuentas.isEmpty()) {
+                    this.cuenta = cuentas.get(0);
+                    this.usuario = this.cuenta.getUser();
+                    nombreEmi = usuario.getNombre() + " " + usuario.getApellido();
+                    saldo = this.cuenta.getSaldo();
+                    tipoCuenta = this.cuenta.getTipoCuenta();
+
+                    txtPropEmisor.setText(nombreEmi);
+                    lblSaldoEmisor.setText(String.valueOf(saldo));
+                    lblTipoCuentaEmisor.setText(tipoCuenta);
+                    lblDolaresEmisor.setText(utilidad.convertirDolares(saldo));
+                    cuentaEncontrada1 = true;
+                    cuentas = null;
+                } else {
+                    limpiar(1);
+                }
+
+            } else {
+                limpiar(1);
             }
         }
+
         if (opcion == 1) {
             cuenta = txtCuentaReceptora.getText();
 
             if (utilidad.validarCuenta(cuenta)) {
-                System.out.println("Buscando cuenta receptora " + cuenta + " en la Base de datos");
+                cuentas = userdb.buscarUsuario(cuenta, null, null);
+                if (!cuentas.isEmpty()) {
+                    this.cuenta = cuentas.get(0);
+                    this.usuario = this.cuenta.getUser();
+                    nombreRec = usuario.getNombre() + " " + usuario.getApellido();
+                    saldo = this.cuenta.getSaldo();
+                    tipoCuenta = this.cuenta.getTipoCuenta();
 
+                    txtPropRecep.setText(nombreRec);
+                    lblSaldoReceptor.setText(String.valueOf(saldo));
+                    lblTipoCuentaReceptor.setText(tipoCuenta);
+                    lblDolaresReceptor.setText(utilidad.convertirDolares(saldo));
+                    cuentaEncontrada2 = true;
+                    cuentas = null;
+                } else {
+                    limpiar(2);
+                }
+
+            } else {
+                limpiar(2);
             }
         }
 
         utilidad = null;
         cuenta = null;
+
+    }
+
+    public void habilidarBtnTransferir() {
+
+        if (cuentaEncontrada1 && cuentaEncontrada2) {
+            btnTransferir.setEnabled(true);
+        } else {
+            btnTransferir.setEnabled(false);
+        }
+
+    }
+
+    private void transferirMonto() {
+
+        String cuentaA = txtCuentaEmisora.getText();
+        String cuentaB = txtCuentaReceptora.getText();
+        utilidad = new Utilidades();
+
+        if (utilidad.validarMonto(txtMonto.getText())) {
+            double monto = Double.parseDouble(txtMonto.getText());
+            double saldo = 0.0;
+            try {
+
+                System.out.println("El monto es " + monto);
+                saldo = userdb.getSaldo(txtCuentaEmisora.getText());
+                transDB = new TransaccionDB();
+
+                if (monto <= 2000 && saldo >= monto) {
+                    transDB.transferirFondos(cuentaA, cuentaB, monto);
+
+                    JOptionPane.showMessageDialog(null, "Transaccion realizada con exito", "BancoUMG", JOptionPane.INFORMATION_MESSAGE);
+                    limpiar(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No hay fondos suficientes en la cuenta\n"
+                            + "o esta intentado depositar una cantidad mayor a 2000", "Error", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Parece que ha ocurrido un problema, intentelo mas tarde", "Error!", JOptionPane.ERROR_MESSAGE);
+                Logger.getLogger(PanelTransferir.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese una cantidad valida", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private double convertirMonto(String montoR) {
+        String monto = "";
+
+        for (int i = 2; i < montoR.length(); i++) {
+            monto += montoR.charAt(i);
+        }
+
+        return Double.parseDouble(monto);
+
     }
 
 
@@ -873,8 +1014,13 @@ public class PanelTransferir extends javax.swing.JPanel implements MouseListener
     private Utilidades utilidad;
     private Cuenta cuenta;
     private Usuario usuario;
+    private UsuarioDB userdb = new UsuarioDB();
+    private ArrayList<Cuenta> cuentas;
     public static final int BUSCAR_CUENTA_RECEPTORA = 1;
     public static final int BUSCAR_CUENTA_EMISORA = 0;
+    private boolean cuentaEncontrada1 = false;
+    private boolean cuentaEncontrada2 = false;
+    private TransaccionDB transDB = null;
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -920,23 +1066,7 @@ public class PanelTransferir extends javax.swing.JPanel implements MouseListener
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Object evt = e.getSource();
 
-        if (evt.equals(txtMonto)) {
-
-            if (txtMonto.getText().equals("Q") || txtMonto.getText().equals("Q ")) {
-                txtMonto.setText("");
-            } else {
-                String quetzales = "Q ";
-                String monto = "";
-                for (int i = 2; i < txtMonto.getText().length(); i++) {
-                    monto = monto + txtMonto.getText().charAt(i);
-
-                }
-                txtMonto.setText(quetzales + monto);
-            }
-
-        }
     }
 
     @Override
@@ -946,13 +1076,37 @@ public class PanelTransferir extends javax.swing.JPanel implements MouseListener
 
         if (evt.equals(txtCuentaEmisora)) {
 
-            buscarCuenta(BUSCAR_CUENTA_EMISORA);
+            try {
+                buscarCuenta(BUSCAR_CUENTA_EMISORA);
+            } catch (SQLException ex) {
+                Logger.getLogger(PanelTransferir.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            habilidarBtnTransferir();
         }
 
         if (evt.equals(txtCuentaReceptora)) {
 
-            buscarCuenta(BUSCAR_CUENTA_RECEPTORA);
+            try {
+                buscarCuenta(BUSCAR_CUENTA_RECEPTORA);
+            } catch (SQLException ex) {
+                Logger.getLogger(PanelTransferir.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            habilidarBtnTransferir();
         }
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object evt = e.getSource();
+        if (evt.equals(btnTransferir)) {
+            if (!txtMonto.getText().isEmpty()) {
+                transferirMonto();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese una cantidad", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
     }
 }

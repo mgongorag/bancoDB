@@ -37,12 +37,12 @@ public class Conexion {
         }
 
         try {
-            String user = "root";    //En esta linea debe ser el usuario que tienen en su mysql workbench
-            String pass = "admin123";      //La contraseña que crearon al momento de instalar el workbech*/
+            //String user = "root";    //En esta linea debe ser el usuario que tienen en su mysql workbench
+            //String pass = "admin123";      //La contraseña que crearon al momento de instalar el workbech*/
 
-            String url = "jdbc:mysql://localhost:3306/Banco?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT&useSSL=false";
-            //String user = "root";           //En esta linea debe ser el usuario que tienen en su mysql workbench
-            //String pass = "admin";      //La contraseña que crearon al momento de instalar el workbech*/
+            String url = "jdbc:mysql://localhost:3306/Banco?zeroDateTimeBehavior=convertToNull&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true";
+            String user = "root";           //En esta linea debe ser el usuario que tienen en su mysql workbench
+            String pass = "admin";      //La contraseña que crearon al momento de instalar el workbech*/
             con = DriverManager.getConnection(url, user, pass);
         } catch (SQLException e) {
             System.out.println("No se pudo conectar a la Base de Datos");

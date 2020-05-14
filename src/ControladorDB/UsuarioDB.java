@@ -11,12 +11,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class UsuarioDB {
 
     private Connection con = null;
     private ResultSet rs = null;
+    private CallableStatement cs = null;
 
     private static UsuarioDB instancia;
 
@@ -232,29 +234,29 @@ public class UsuarioDB {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                
+
                 String dpi = rs.getString(3);
                 int tipoCuenta = rs.getInt(4);
-                
+
                 if (tipoCuenta == 1) {
                     cuenta = new CuentaAhorro();
-                    
+
                     cuenta.setUser(userDB.buscarUsuario(dpi));
-                    
+
                     cuenta.setNumeroCuenta(rs.getString(1));
                     cuenta.setSaldo(rs.getDouble(2));
                     cuenta.setId_tipoCuenta(tipoCuenta);
-                    
+
                     return cuenta;
 
                 } else if (tipoCuenta == 2) {
                     cuenta = new CuentaMonetaria();
-                    
+
                     cuenta.setUser(userDB.buscarUsuario(dpi));
                     cuenta.setNumeroCuenta(rs.getString(1));
                     cuenta.setSaldo(rs.getDouble(2));
                     cuenta.setId_tipoCuenta(tipoCuenta);
-                    
+
                     return cuenta;
                 }
             }
@@ -384,7 +386,7 @@ public class UsuarioDB {
 
         try {
             con = Conexion.getInstancia().Conectar();
-            ps = con.prepareStatement("call ConsultaCuentas(?);");
+            ps = con.prepareStatement("call ConsultaCuentasT(?);");
             ps.setString(1, dpi);
 
             rs = ps.executeQuery();
@@ -496,6 +498,56 @@ public class UsuarioDB {
             ps.close();
             con.close();
         }
+    }
+
+    public ArrayList<Cuenta> buscarUsuario(String numeroCuenta, String apellido, String dpi) throws SQLException {
+        ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
+        Cuenta cuenta;
+        Usuario user = new Usuario();
+        try {
+            con = Conexion.getInstancia().Conectar();
+
+            cs = con.prepareCall("call BuscarUsuario (?,?,?)");
+            cs.setString(1, numeroCuenta);
+            cs.setString(2, apellido);
+            cs.setString(3, dpi);
+
+            rs = cs.executeQuery();
+
+            ResultSetMetaData rsMD = rs.getMetaData();
+
+            int cantidadColumnas = rsMD.getColumnCount();
+
+            while (rs.next()) {
+                if (rs.getInt(9) == 1) {
+                    cuenta = new CuentaAhorro();
+                    cuenta.setId_tipoCuenta(1);
+                } else {
+                    cuenta = new CuentaMonetaria();
+                    cuenta.setId_tipoCuenta(2);
+                }
+
+                user.setDPI(rs.getString(1));
+                user.setNombre(rs.getString(2));
+                user.setApellido(rs.getString(3));
+                user.setGenero(rs.getString(4).charAt(0));
+                user.setTelefono(rs.getString(5));
+                cuenta.setNumeroCuenta(rs.getString(6));
+                cuenta.setSaldo(rs.getDouble(7));
+                cuenta.setTipoCuenta(rs.getString(8));
+                cuenta.setUser(user);
+                cuentas.add(cuenta);
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Hubo un error");
+            ex.printStackTrace();
+        } finally {
+            cs.close();
+            con.close();
+        }
+        return cuentas;
     }
 
 }
